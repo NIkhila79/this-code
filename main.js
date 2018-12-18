@@ -10,6 +10,9 @@ $(function () {
 });
 
 
+$(function () {
+    $("#datepicker").datepicker();
+  });
 $(document).ready(function () {
   // $("#datepicker").datepicker({ 
   //         format: 'yyyy-mm-dd',
@@ -18,9 +21,7 @@ $(document).ready(function () {
   //         var fromdate = $(this).val();
   //         alert(fromdate);
   //     });
-  $(function () {
-    $("#datepicker").datepicker();
-  });
+  
   var i = 1;
   $(document).on('click', '.add', function () {
     var rowCount = $('#dynamic_field >tbody >tr').length;
@@ -38,7 +39,14 @@ $(document).ready(function () {
   $(document).on('click', '.btn_remove', function () {
     var rowCount = $('#dynamic_field >tbody >tr').length;    
     //alert(rowCount);
+    if (rowCount == 4) {
+      alert("You cannot delet entire row");
+      return false;
+    }
+    else
+    {
      $(this).closest('tr').remove();
+    }
   });
   // end add/remove 16 coupons
 
@@ -67,14 +75,6 @@ $(document).ready(function () {
       // var flightNo = table.rows[r].cells[9].children[0].value;
       // var flightDate = table.rows[r].cells[11].children[0].value;
       var fareBasis = table.rows[r].cells[12].children[0].value;
-      console.log("docNo"+docNo+"\n"+
-                  "cpnNo"+cpnNo+"\n"+
-                  "origin"+origin+"\n"+
-                  "destination"+destination+"\n"+
-                  "cxr"+cxr+"\n"+
-                  "flightNo"+flightNo+"\n"+
-                  "flightDate"+flightDate+"\n"+
-                  "fareBasis"+fareBasis+"\n");
 
       var obj = {};
       //validation
@@ -127,8 +127,7 @@ $(document).ready(function () {
         // url: 'http://10.111.25.165:8087/proration/fca/enrichgfp', // Barthiban's url.the url where we want to POST
         contentType: "application/json",
         data: JSON.stringify(dataToSend), // our data object
-        // dataType    : 'json', // what type of data do we expect back from the server
-        // encode          : true,
+
 
         crossDomain: true
       })
@@ -140,22 +139,16 @@ $(document).ready(function () {
         console.log(arguments);
 
         //to clear existed data in resultant table 
-        $("#result > tbody > tr > td").parent('tr').empty();
+        // $("#result > tbody > tr > td").parent('tr').empty();
+        // To remove existed input
+        $("#myTBody>tr").remove();
+        $("#second > tr > td").parent('tr').empty();
         // $("#tbError tbody").empty();
         $("#tbError > table > tbody > tr").empty();
 
         if (xhr.status == 200 && data.couponInfo != null && data.couponInfo.listOfCoupons != null) {
-          // $('#dummy').val("Nikhila")
-          // console.log(arguments);
-          // console.log("status-code",xhr.status);
-
-          // $('#hide-enrich').show();
-          // $('.hidden').css("display", "block");
-          // $('.error-result-table').hide();
-
           console.log("Status", xhr.status);
           console.log("success data", data);
-          // $('#result').css("display", "table");
 
           // document.write("success=>",JSON.stringify(data));
           // var couponInfo = data.couponInfo;
@@ -169,15 +162,16 @@ $(document).ready(function () {
             var insideCoupons = listOfCoupons[i];
             basicInfo += " <tr>";
             if (insideCoupons.couponType == null) {
-              basicInfo += "<td>" + "" + "</td>";
+              basicInfo += "<td>"+""+"</td>";
             } else {
-              basicInfo += "<td>" + insideCoupons.couponType + "</td>";
+              basicInfo += "<td>"+insideCoupons.couponType+ "</td>";
+              console.log("dummy",basicInfo);
             }
 
             if (insideCoupons.sideTripFlag == true) {
-              basicInfo += "<td>" + "Y" + "</td>";
+              basicInfo += "<td>"+"Y"+"</td>";
             } else {
-              basicInfo += "<td>" + "" + "</td>";
+              basicInfo += "<td>" + " " + "</td>";
             }
 
             if (insideCoupons.transitFlag == true) {
@@ -186,19 +180,20 @@ $(document).ready(function () {
               basicInfo += "<td>" + "" + "</td>";
             }
 
-            basicInfo += "<td>" + insideCoupons.docNo + "</td>";
-            basicInfo += "<td>" + insideCoupons.couponNo + "</td>";
-            basicInfo += "<td>" + insideCoupons.sectorNo + "</td>";
-            basicInfo += "<td>" + insideCoupons.origin + "</td>";
-            basicInfo += "<td>" + insideCoupons.destination + "</td>";
-            basicInfo += "<td>" + insideCoupons.cxr + "</td>";
+            basicInfo += "<td><input type='text' name='docNo' id='docNo' maxlength='1' value='"+insideCoupons.docNo+"' style='width:79px'/>" + "</td>";
+            basicInfo += "<td><input type='text' name='cpnNo' id='cpnNo' value='"+insideCoupons.couponNo+"'/>" + "</td>";
+            // basicInfo += "<td><input type='text' value='"+insideCoupons.sectorNo+"'/>" + "</td>";
+            basicInfo += "<td>"+insideCoupons.sectorNo+ "</td>";
+            basicInfo += "<td><input type='text' type='text' name='origin' id='origin' value='"+insideCoupons.origin+"'/>" + "</td>";
+            basicInfo += "<td><input type='text' name='destination' id='destination' value='"+insideCoupons.destination+"'/>" + "</td>";
+            basicInfo += "<td><input type='text' name='cxr' id='cxr' value='"+insideCoupons.cxr+"'/>" + "</td>";
             basicInfo += "<td>" + "" + "</td>";
             basicInfo += "<td>" + "" + "</td>";
             basicInfo += "<td>" + "" + "</td>";
             if (insideCoupons.fareBasis == null) {
-              basicInfo += "<td>" + "" + "</td>";
+              basicInfo += "<td><input type='text' value='"+""+"' style='width: 85px;'/>" + "" + "</td>";
             } else {
-              basicInfo += "<td>" + insideCoupons.fareBasis + "</td>";
+              basicInfo += "<td><input type='text' value='"+insideCoupons.fareBasis+"' style='width: 85px;'/>" + "</td>";
             }
             basicInfo += "<td>" + insideCoupons.fcNo + "</td>";
             if (insideCoupons.fareComponent == null) {
@@ -223,13 +218,37 @@ $(document).ready(function () {
             basicInfo += "<td>" + " "+ "</td>";
             basicInfo += "<td>" + " "+ "</td>";
             basicInfo += "<td>" + " "+ "</td>";
-            basicInfo += "<td>" + " "+ "</td>";
+            basicInfo += '<td ><button type="button" name="add" id="add" class="btn btn-sm btn-success add"><i class="fa fa-plus" aria-hidden="true"></i></button><button type="button" name="remove" id="remove" class="btn btn-sm btn-danger btn_remove"><b>-</b></button></td>'
             basicInfo += "</tr>";
             basicInfo += "        ";
+
             // console.log("basicInfo", basicInfo);
           }
-          $(".result> tbody:first").append(basicInfo).css({"color":"red","font-weight":"600"});
-
+          $(".result> tbody:first").append(basicInfo).css({"color":"red"});
+           // Get total amount
+          
+          var totalInfo = "";
+          totalInfo += "<tr>";
+          totalInfo += "<th colspan='12'>"+ "Total"+"</th>";
+          totalInfo += "<td colspan='1'>"+ "SGD"+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1' class='atbpValue'>"+ "2868.33"+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1' class='classDiff'>"+ "409.67"+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1' class='mpa'>"+ "2868.33"+"</td>";
+          totalInfo += "<td colspan='1'>"+ ""+"</td>";
+          totalInfo += "<td colspan='1' class='netFareProrate'>"+ "190.90"+"</td>";
+          totalInfo += "<td colspan='1' class='finalProrate'>"+ "2000.00"+"</td>";
+          totalInfo += "</tr>"
+          $(totalInfo).insertAfter($('table').find('.total-amount'));
+          
           // Get ticket level info details values//
           var tktInfo = "";
           tktInfo += "<tr>";
@@ -317,9 +336,9 @@ $(document).ready(function () {
               classDiffInfo += "<td colspan='10'>" + "" + "</td>";
               classDiffInfo += "</tr>";
               classDiffInfo += "        ";
-              // insert ClassDifference values//
-              $(classDiffInfo).insertAfter($('table').find('.classDiffInfo'));
             }
+            // insert ClassDifference values//
+            $(classDiffInfo).insertAfter($('table').find('.classDiffInfo'));
           } else {
             $(classDiffInfo).hide();
           }
@@ -335,9 +354,9 @@ $(document).ready(function () {
               stopOverInfo += "<td colspan='10'>" + "" + "</td>";
               stopOverInfo += "</tr>";
               stopOverInfo += "        ";
-              // insert StopOver values//
-              $(stopOverInfo).insertAfter($('table').find('.stopover'));
             }
+            // insert StopOver values//
+            $(stopOverInfo).insertAfter($('table').find('.stopover'));
           } else {
             $(stopOverInfo).hide();
           }

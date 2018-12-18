@@ -73,38 +73,10 @@
                 <th style="width:75px">NET Fare<br/>Prorate</th>
                 <th style="width: 180px">Action</th>
             </tr>
-
-           <!--  <tr class="">
-                <td width="2%">D/R/Y</td>
-                <td width="2%">ST</td>
-                <td width="2%">T/S</td>
-                <td width="2%">Sect #</td>
-                <td width="2%">BTIT Ind</td>
-                <td width="2%">From</td>
-                <td width="3%">To</td>
-                <td width="2%">CXR</td>
-                <td width="2%">Flight #</td>
-                <td width="2%">RBD</td>
-                <td width="7%">Flight Date</td>
-                <td width="6%">Fare Basis</td>
-                <td width="2%">FC #</td>
-                <td width="5%">FC Value</td>
-                <td width="5%">ATBP</td>
-                <td width="3%">WM</td>
-                <td width="2%">Surcharge</td>
-                <td width="4%">Class Diff</td>
-                <td width="2%">Proviso</td>
-                <td width="2%">SRP</td>
-                <td width="2%">MPA</td>
-                <td width="2%">MPA WO Prov</td>
-                <td width="2%">SPA</td>
-                <td width="2%">Final Prorate</td> 
-            </tr> -->
-
         </thead>
         <tbody id="myTBody">
             <tr>
-                <td><input type="text" name="dummy" id="dummy" class="text-uppercase" style="width: 20px"></td>
+                <td class="pt-1 pb-1"><input type="text" name="dummy" id="dummy" class="text-uppercase" style="width: 20px"></td>
 
                 <td><input type="text" name="st" id="st" class="text-uppercase"></td>
 
@@ -126,9 +98,9 @@
 
                 <td><input type="text" name="rbd" id="rbd" class="text-uppercase"></td>
 
-                <td><input type="text" name="flightDate" id="flightDate" class="text-uppercase"style="width: 60px;"></td>
+                <td><input type="text" name="flightDate" id="flightDate" class="text-uppercase" style="width: 60px;"></td>
 
-                <td><input type="text" name="fareBasis" id="fareBasis" class="text-uppercase"style="width: 85px;"></td>
+                <td><input type="text" name="fareBasis" id="fareBasis" class="text-uppercase" style="width: 85px;"></td>
 
                 <td><input type="text" name="fcNo" id="fcNo" class="text-uppercase" ></td>
 
@@ -160,48 +132,36 @@
                 <td><input type="text" name="netFareProrate" id="netFareProrate" class="text-uppercase" style="width:60px;"></td>
                 <!-- <td><textarea  name="netFareProrate" id="netFareProrate" class="text-uppercase" placeholder="1234567.90" style="width:85px;word-break:break-all;"></textarea></td> -->
 
-                <td ><button type="button" name="add" id="add" class="btn btn-sm btn-success add"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
+                <td >
+                    <button type="button" name="add" id="add" class="btn btn-sm btn-success add"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    <button type="button" name="remove" id="remove" class="btn btn-sm btn-danger btn_remove"><b>-</b></button>
+                </td>
             </tr>
         </tbody>
-        <!-- <tr class="total-amount">
-                <th colspan="12">Total</th>
-                <td colspan="1">SGD</td>
-                <td colspan="1"></td>
-                <td colspan="1"></td>
-                <td colspan="1"></td>
-                <td colspan="1"></td>
-                <td colspan="1" class="atbpValue">2868.33</td>
-                <td colspan="1"></td>
-                <td colspan="1"></td>
-                <td colspan="1"></td>
-                <td colspan="1" class="classDiff">409.67</td>
-                <td colspan="1"></td>
-                <td colspan="1"></td>
-                <td colspan="1" class="mpa">2868.33</td>
-                <td colspan="1"></td>
-                <td colspan="1" class="netFareProrate">190.90</td>
-                <td colspan="1" class="finalProrate">2000.00</td>
+        <tbody id="secondBody"> 
+            <tr class="total-amount"></tr>
+            <!-- <tr class="blank-row">
+                <td colspan="29">NIKHILA</td>
             </tr> -->
-            <tr class="blank-row">
-                <td colspan="29"></td>
-            </tr>
             <tr class="tkt">
                 <thead class="thead-light">
                     <th colspan="29" >FCA</th>
                 </thead>
             </tr>
             <tr>
-                <td colspan="29"><input type="text" name="fcaString" id="fcaString" placeholder="Enter FCA string" class="form-control text-uppercase" ></td>
+                <td colspan="29" class="pt-3"><input type="text" name="fcaString" id="fcaString" placeholder="Enter FCA string" class="form-control text-left  text-uppercase" ></td>
             </tr>
-           <!--  <tr>
+        
+            <tr>
                 <th colspan="29">Misc charges</th>
-            </tr> -->
-            <!-- <tr class="surcharge"><td colspan="28"></td></tr>
-            <tr class="classDiffInfo"><td colspan="28"></td></tr>
-            <tr class="stopover"><td colspan="28"></td></tr>
-            <tr class="plusInfo"><td colspan="28"></td></tr>
-            <tr class="lessInfo"><td colspan="28"></td></tr>
-            <tr class="plusUpInfo"><td colspan="28"></td></tr>
+            </tr>
+            <tr class="surcharge"></tr>
+            <tr class="classDiffInfo"></tr>
+            <tr class="stopover"></tr>
+            <tr class="plusInfo"></tr>
+            <tr class="lessInfo"></tr>
+            <tr class="plusUpInfo"></tr>
+            <!-- 
             <tr class="nucTotal">
                 <th>NUC Total</th>
                 <td>2400.00</td>
@@ -242,8 +202,25 @@
                 <td>190.90</td>
                 <th>600.57 - 409.67</th>
             </tr> -->
-        
+        </tbody>
     </table>
+
+    <div class="error-result-table hidden" id="tbError">
+        <div class="col-md-12 mt-5" style="padding: 0">
+            <button type="button" name="add" id="add" class="btn btn-sm btn-success add"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <button type="button" name="remove" id="remove" class="btn btn-sm btn-danger btn_remove"><b>-</b></button>
+        </div>
+        <table class="table table-bordered">
+            <tbody>
+                <thead class="alert alert-danger">
+                    <tr>
+                        <th colspan="15">Error Message</th>
+                    </tr>
+                </thead>
+                <tr class="exceptionInfo1"></tr>
+            </tbody>
+        </table>
+    </div>
     <!-- <div class="col-md-12 mt-5" style="padding: 0">
         <button type="button" name="add" id="add" class="btn btn-sm btn-success add"><i class="fa fa-plus" aria-hidden="true"></i></button>
         <button type="button" name="remove" id="remove" class="btn btn-sm btn-danger btn_remove"><b>-</b></button>
